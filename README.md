@@ -1,23 +1,79 @@
-# Dynamic Dashboard Rendering Engine
+# 🚀 Dynamic Dashboard Rendering Engine
 
-## Architectural Highlights
+A **schema-driven**, highly extensible React engine designed for performance-first dashboard orchestration. This project demonstrates a **decoupled architecture** where the UI layout, data flow, and component logic are strictly separated.
 
-### 1. Registry Pattern (Scalability)
+---
 
-The engine decouples the rendering logic from widget implementation. Adding a new widget requires no changes to the `DashboardRenderer`; you simply add the component to the `WidgetRegistry`. This follows the Open/Closed Principle.
+## 🏗️ Setup and Execution
+### 1. Installation
+Clone the repository and install the necessary dependencies:
+```bash
+npm install
+```
+### 2. Environment Configuration
+Ensure your environment is set up to handle the TypeScript and Tailwind CSS pipeline:
 
-### 2. Event-Driven Inter-Widget Communication
+TypeScript Node Types: Install @types/node to resolve configuration paths for Vite:
 
-Using a **Publisher/Subscriber** model via React Context, widgets communicate without tight coupling.
+```bash
+npm install -D @types/node
+```
 
-- `DateRangeSelector` publishes state updates to the `DashboardContext`.
-- `RevenueChart` subscribes to these updates through the `listeningTo` configuration array.
-- This prevents prop-drilling and ensures each widget remains a standalone unit.
+Tailwind Initialization: If styles are not applying, sync the PostCSS pipeline:
+```bash
+npx tailwindcss init -p
+```
 
-### 3. Resilient Error Handling
+### 3. Running the Project
+Start the development server with Vite:
 
-If the JSON configuration specifies a widget type that does not exist in the Registry, the engine catches this and renders an `UnknownWidget` fallback rather than crashing the entire dashboard.
+```bash
+npm run dev
+```
+The dashboard will be available at http://localhost:5173.
 
-### 4. Optimized Re-renders
 
-By using a scoped `DashboardProvider` and passing selective `subscribedData` to wrappers, we ensure that only widgets actually listening to a specific state change will trigger a re-render.
+## 🏗️ Design Decisions
+
+### 1. Registry-Based Component Resolution
+The engine utilizes a **Registry Pattern** to decouple the rendering core from the widget library.
+* **Scalability:** New widgets are onboarded by simply updating the `WidgetRegistry`. The core `DashboardRenderer` remains **Open/Closed** (Open for extension, Closed for modification).
+* **Resilience:** Built-in **Graceful Degradation** ensures that unrecognized widget types render an `UnknownWidget` fallback rather than triggering a runtime crash.
+
+### 2. Reactive Data Orchestration (Pub/Sub)
+Instead of traditional prop-drilling, this engine implements a **Schema-Driven Subscription Model** via React Context.
+* **Declarative Dependencies:** Widgets declare their data needs in the JSON schema using the `listeningTo` attribute.
+* **Decoupled Communication:** A `DateRangeSelector` (**Publisher**) updates the central state, and the engine automatically "pipes" that data into any `RevenueChart` (**Subscriber**) that has opted-in.
+* **No Side-Effects:** Widgets remain pure; they consume standardized props and emit changes through a unified `onEmit` interface.
+
+### 3. Performance & Memoization Strategy
+Engineered to minimize the performance overhead inherent in global state updates:
+* **Selective Re-renders:** The `WidgetWrapper` acts as a **memoization boundary**. It extracts only relevant dependencies, ensuring widgets only re-render if their specific "subscribed" data changes.
+* **Efficient Computation:** Expensive operations, such as **Recharts** data transformations and date range calculations, are wrapped in `useMemo` to prevent redundant processing.
+
+---
+
+## 🛠️ Tech Stack & Patterns
+
+| Category | Technology / Pattern |
+| :--- | :--- |
+| **Core** | React 18, TypeScript (Strict Mode) |
+| **Visuals** | Recharts (Area/Line), Tailwind CSS |
+| **Layout** | 12-Column Dynamic CSS Grid |
+| **Patterns** | Registry Pattern, Observer (Pub/Sub) Pattern, Adapter Pattern |
+
+---
+
+## 📖 Schema Definition
+The entire dashboard is a **data-driven entity**. A simple JSON update can reconfigure the entire layout and logic without a single code deployment:
+
+```json
+{
+  "id": "w_chart_1",
+  "type": "REVENUE_CHART",
+  "layout": { "w": 12 },
+  "listeningTo": ["w_date_1"],
+  "properties": { 
+    "title": "Revenue Forecast" 
+  }
+}
