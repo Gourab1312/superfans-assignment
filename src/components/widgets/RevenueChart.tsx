@@ -75,7 +75,7 @@ export default function RevenueChart({ title, subscribedData }: any) {
               axisLine={false}
               tickLine={false}
               tick={{ fill: '#94a3b8', fontSize: 10 }}
-              tickFormatter={(val) => `$${val / 1000}k`}
+              tickFormatter={(val) => `₹${val / 1000}k`}
             />
             <Tooltip
               contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
