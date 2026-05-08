@@ -4,6 +4,8 @@ A **schema-driven**, highly extensible React engine designed for performance-fir
 
 ---
 
+#### The app is deployed on : https://superfans-assignment.vercel.app/
+
 ## 🏗️ Setup and Execution
 ### 1. Installation
 Clone the repository and install the necessary dependencies:
