@@ -14,6 +14,7 @@ export interface WidgetConfig {
 export interface DashboardSchema {
   meta: {
     title: string;
+    subtitle: string;
   };
   layout: {
     columns: number;

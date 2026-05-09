@@ -56,11 +56,7 @@ function App() {
             <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
               {config?.meta.title}
             </h1>
-            <p className="text-slate-500 text-sm mt-1">Config-driven Analytics Engine</p>
-          </div>
-          <div className="bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm">
-            <span className="text-xs font-bold text-slate-400 uppercase">Status: </span>
-            <span className="text-xs font-bold text-green-500 uppercase">Live</span>
+            <p className="text-slate-500 text-sm mt-1">{config?.meta.subtitle}</p>
           </div>
         </header>
 

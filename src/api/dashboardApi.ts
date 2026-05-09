@@ -1,7 +1,7 @@
 import type { DashboardSchema } from '../types/dashboard';
 
 const MOCK_CONFIG: DashboardSchema = {
-  meta: { title: "Dashboard Rendering Engine" },
+  meta: { title: "Dashboard Rendering Engine", subtitle: "A schema-driven, highly extensible React engine designed for performance-first dashboard orchestration." },
   layout: { columns: 12, gap: 20 },
   widgets: {
     "w_kpi_1": {
