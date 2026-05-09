@@ -21,10 +21,11 @@ const generateDataForRange = (startStr?: string, endStr?: string) => {
   while (current <= end) {
     data.push({
       dateStr: formatDate(new Date(current)),
+      // Generating a random revenue between 1000 and 5000 for each day within the chosen range
       revenue: Math.floor(Math.random() * 5000) + 1000,
     });
     current.setDate(current.getDate() + 1);
-    if (data.length > 31) break; // Safety cap
+    if (data.length > 31) break; // A safety cap to prevent infinite loop
   }
   return data;
 };
@@ -32,7 +33,7 @@ const generateDataForRange = (startStr?: string, endStr?: string) => {
 export default function RevenueChart({ title, subscribedData }: any) {
   const dateFilter = subscribedData['w_date_1'];
 
-  // This is the "Reactive" part. When dateFilter changes, useMemo recalculates data.
+  // This is the "Reactive" part. When dateFilter changes, useMemo recalculates the data based on the new date range.
   const chartData = useMemo(() => {
     return generateDataForRange(dateFilter?.start, dateFilter?.end);
   }, [dateFilter?.start, dateFilter?.end]);
