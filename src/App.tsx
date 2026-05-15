@@ -3,13 +3,7 @@ import { DashboardProvider } from './components/engine/DashboardProvider';
 import { DashboardRenderer } from './components/engine/DashboardRenderer';
 import { fetchDashboardConfig } from './api/dashboardApi';
 import type { DashboardSchema } from './types/dashboard';
-
-// 1. Helper to get default dates (7 days ago to Today) : Keeping this as default on first load
-const getInitialDates = () => {
-  const today = new Date().toISOString().split('T')[0];
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-  return { start: sevenDaysAgo, end: today };
-};
+import { getInitialDates } from './common/getInitialDates';
 
 function App() {
   const [config, setConfig] = useState<DashboardSchema | null>(null);

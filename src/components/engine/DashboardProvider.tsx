@@ -7,6 +7,8 @@ interface DashboardContextType {
   widgetStates: DashboardState;
   // Using a functional update pattern similar to React's useState for flexibility
   setWidgetState: (id: string, value: any) => void;
+  error: string | null;
+  setError: (val: string) => void
 }
 
 const DashboardContext = createContext<DashboardContextType | null>(null);
@@ -23,6 +25,7 @@ export const DashboardProvider: React.FC<ProviderProps> = ({
 }) => {
   // Initializing the state with hydration data
   const [widgetStates, setWidgetStates] = useState<DashboardState>(initialValues);
+  const [error, setError] = useState(null);
 
   /**
    * Updating a specific widget's state.
@@ -30,6 +33,14 @@ export const DashboardProvider: React.FC<ProviderProps> = ({
    * the 'start' date, it doesn't delete the 'end' date.
    */
   const setWidgetState = useCallback((id: string, value: any) => {
+    console.log('widgetState', widgetStates);
+    if (id === 'w_date_1') {
+      let startDate = widgetStates[id].start;
+      let endDate = widgetStates[id].end;
+
+      endDate >= startDate && setError('endDate is greater than startDate');
+      return;
+    }
     setWidgetStates((prev) => {
       const currentWidgetState = prev[id] || {};
 
@@ -48,8 +59,10 @@ export const DashboardProvider: React.FC<ProviderProps> = ({
 
   const contextValue = useMemo(() => ({
     widgetStates,
-    setWidgetState
-  }), [widgetStates, setWidgetState]);
+    setWidgetState,
+    error,
+    setError
+  }), [widgetStates, setWidgetState, error, setError]);
 
   return (
     <DashboardContext.Provider value={contextValue}>

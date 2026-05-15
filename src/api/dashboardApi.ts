@@ -14,6 +14,7 @@ const MOCK_CONFIG: DashboardSchema = {
       id: "w_date_1",
       type: "DATE_RANGE_SELECTOR",
       layout: { w: 8 },
+      listeningTo: ["w_date_1"],
       properties: { title: "Date Range" }
     },
     "w_chart_1": {
@@ -28,7 +29,28 @@ const MOCK_CONFIG: DashboardSchema = {
       type: "NON_EXISTENT_TYPE",
       layout: { w: 12 },
       properties: {}
-    }
+    },
+    "w_card_1": {
+      id: "w_card_1",
+      type: "CARD",
+      layout: { w: 4 },
+      properties: { title: "Monthly Recurring Revenue" },
+      hideIfRender: ["w_chart_1"],
+    },
+    "w_card_2": {
+      id: "w_card_2",
+      type: "CARD",
+      layout: { w: 4 },
+      properties: { title: "Avg Revenue Per User" },
+      hideIfRender: ["w_chart_1"],
+    },
+    "w_card_3": {
+      id: "w_card_3",
+      type: "CARD",
+      layout: { w: 4 },
+      properties: { title: "Lifetime Value" },
+      hideIfRender: ["w_chart_1"],
+    },
   }
 };
 

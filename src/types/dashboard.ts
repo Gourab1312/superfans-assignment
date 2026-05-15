@@ -9,6 +9,7 @@ export interface WidgetConfig {
   };
   properties: Record<string, any>;
   listeningTo?: string[]; // IDs of widgets this widget observes
+  hideIfRender?: string[];
 }
 
 export interface DashboardSchema {
